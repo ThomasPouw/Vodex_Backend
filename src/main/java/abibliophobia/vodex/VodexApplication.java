@@ -18,5 +18,4 @@ public class VodexApplication {
     public static void main(String[] args) {
         SpringApplication.run(VodexApplication.class, args);
     }
-
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class User {
     @Id
-    public String id;
+    public String ID;
 
     public String Username;
     public String Password;
@@ -48,7 +48,7 @@ public class User {
         try{
             Boolean Is_In_List= false;
             for (User F:Friends) {
-                if(F.id == U.id){
+                if(F.ID == U.ID){
                     Is_In_List = true;
                 }
             }
