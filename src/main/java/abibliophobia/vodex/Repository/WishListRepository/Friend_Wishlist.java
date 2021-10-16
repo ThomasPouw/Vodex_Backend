@@ -1,8 +1,11 @@
 package abibliophobia.vodex.Repository.WishListRepository;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 import java.util.Map;
 
+@Document
 public class Friend_Wishlist extends Wishlist{
     public Map<String, String> Products_With_Friends;
     public Map<String, String> Nicknamed_Friend_ID;

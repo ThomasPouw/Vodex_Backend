@@ -1,10 +1,12 @@
 package abibliophobia.vodex.Repository.WishListRepository;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Map;
 
+@Document
 public class Wishlist{
     @Id
     public String id;

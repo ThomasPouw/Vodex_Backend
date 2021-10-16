@@ -3,10 +3,12 @@ package abibliophobia.vodex.Repository.ProductRepository;
 import abibliophobia.vodex.Repository.OptionRepository.Category.Category;
 import abibliophobia.vodex.Repository.OptionRepository.Company;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
 
+@Document
 public class Product {
         @Id
         public String ID;

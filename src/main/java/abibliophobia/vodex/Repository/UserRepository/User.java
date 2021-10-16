@@ -1,12 +1,14 @@
 package abibliophobia.vodex.Repository.UserRepository;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Document
 public class User {
     @Id
     public String ID;
@@ -48,11 +50,12 @@ public class User {
         try{
             Boolean Is_In_List= false;
             for (User F:Friends) {
-                if(F.ID == U.ID){
+                if (F.ID.equals(U.ID)) {
                     Is_In_List = true;
+                    break;
                 }
             }
-            if(Is_In_List == true){
+            if(Is_In_List){
                 Friends.remove(U);
             }
             return true;
