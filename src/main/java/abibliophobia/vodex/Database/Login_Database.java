@@ -1,28 +1,32 @@
 package abibliophobia.vodex.Database;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoException;
+import com.mongodb.client.*;
+import com.mongodb.client.result.InsertOneResult;
+import static com.mongodb.client.model.Filters.eq;
+import org.bson.Document;
+
 
 public class Login_Database extends DatabaseConfig
 {
     public String[] Login(String Email, String Password)
     {
-        try{
-            PreparedStatement STMT = SetUpDatabase().prepareStatement("SELECT User_ID, User_Name, Role FROM `User` WHERE Password = ? AND Email = ?");
-            STMT.setString(1,Password);
-            STMT.setString(2,Email);
-            ResultSet result = STMT.executeQuery();
-            String[] S = null;
-            while(result.next())
-            {
-                S = new String[]{result.getString(1), result.getString(2), result.getString(3)};
+        String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("Vodex");
+            BasicDBObject criteria = new BasicDBObject();
+            criteria.append("Email", Email);
+            criteria.append("Password", Password);
+            MongoCursor<Document> Mdoc = database.getCollection("Users").find(criteria).iterator();
+            while(Mdoc.hasNext()){
+                Document doc = Mdoc.next();
+                return new String[]{doc.get("_id").toString(), (String) doc.get("User_Name"), (String) doc.get("Role")};
             }
-            return S;
+            return null;
         }
-        catch(SQLException SQL){
-            System.out.println("SQLException: "+ SQL.getMessage());
-            System.out.println("Error code: "+ SQL.getErrorCode());
+        catch(MongoException Mongo){
+            System.out.println("SQLException: "+ Mongo.getMessage());
             return null;
         }
     }

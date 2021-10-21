@@ -1,31 +1,26 @@
-package abibliophobia.vodex.Database;
+ package abibliophobia.vodex.Database;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+
 
 public class DatabaseConfig {
-    public Connection SetUpDatabase()
+    protected MongoClient mongoClient;
+    public MongoCollection<Document> SetUpDatabase(String Collection)
     {
-        Connection conn = null;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        } catch (Exception ex) {
-            System.out.println("Cannot Load the Driver!");
-            System.out.println("SQLException: " + ex.getMessage());
-            return null;
+        String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            this.mongoClient = mongoClient;
+            MongoDatabase database = mongoClient.getDatabase("Vodex");
+            return database.getCollection(Collection);
         }
-        try
-        {
-            conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/rhGPCBzllW" +
-                    "?user=rhGPCBzllW&password=9ip9Ym5PRf");
-            return conn;
-        }
-        catch(Exception E)
-        {
-            System.out.println("Connection error:"+ E.getMessage());
+        catch(MongoException E){
+            System.out.println("Something went wrong... please send this to the developer: "+E.getMessage());
             return null;
         }
     }

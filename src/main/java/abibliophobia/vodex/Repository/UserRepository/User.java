@@ -1,16 +1,10 @@
 package abibliophobia.vodex.Repository.UserRepository;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Document
 public class User {
-    @Id
     public String ID;
 
     public String Username;
@@ -32,6 +26,12 @@ public class User {
         this.Image = Image;
         Friends = new ArrayList<>();
     }
+    public User(String ID, String UserName, String Image) {
+        this.ID = ID;
+        this.Username = UserName;
+        this.Image = Image;
+    }
+
     public boolean SetFriend(User U)
     {
         try{
