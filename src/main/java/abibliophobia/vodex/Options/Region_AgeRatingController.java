@@ -16,20 +16,36 @@ public class Region_AgeRatingController {
         return Region_AgeRating_Database.GetAllRegion_AgeRatings(ID);
     }
     @GetMapping("/Region/Add/{Region_Name}")
-    Boolean AddNewMainCategory(@PathVariable String Region_Name){
-        return Region_AgeRating_Database.AddNewRegion_AgeRatings(Region_Name, null);
+    List<String[]> AddNewRegion(@PathVariable String Region_Name){
+        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Region_Name, null);
+        if(Added){
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(null);
+        }
+        return null;
     }
-    @GetMapping("/Age/Add/{Age_Name}/{Region_ID}")
-    Boolean AddNewAgeRating(@PathVariable String Age_Name, @PathVariable String Region_ID){
-        return Region_AgeRating_Database.AddNewRegion_AgeRatings(Age_Name, Region_ID);
+    @GetMapping("/Age/Add/{Region_ID}/{Age_Name}")
+    List<String[]> AddNewAgeRating(@PathVariable String Region_ID, @PathVariable String Age_Name){
+        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Age_Name, Region_ID);
+        if(Added){
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(Region_ID);
+        }
+        return null;
     }
-    @GetMapping("{Type}/Delete/{Option_ID}")
-    Boolean DeleteCategory(@PathVariable String Type, @PathVariable String Option_ID){
-        return Region_AgeRating_Database.DeleteRegion_AgeRatings(Option_ID, Type);
+    @GetMapping("/Region_AgeRating/{Type}/Delete/{Option_ID}")
+    List<String[]> DeleteCategory(@PathVariable String Type, @PathVariable String Option_ID){
+        Boolean Delete = Region_AgeRating_Database.DeleteRegion_AgeRatings(Option_ID, Type);
+        if(Delete){
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(Option_ID);
+        }
+        return null;
     }
-    @GetMapping("/Edit/{Option_Name}/{ID}")
-    Boolean EditCategory(@PathVariable String Option_Name, @PathVariable String ID){
-        return Region_AgeRating_Database.EditRegion_AgeRatings(Option_Name, ID);
+    @GetMapping("/Region_AgeRating/Edit/{Option_Name}/{ID}")
+    List<String[]> EditCategory(@PathVariable String Option_Name, @PathVariable String ID){
+        Boolean Edit =Region_AgeRating_Database.EditRegion_AgeRatings(Option_Name, ID);
+        if(Edit){
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(ID);
+        }
+        return null;
     }
 
 }
