@@ -11,23 +11,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/Options")
 public class Region_AgeRatingController {
-    @GetMapping("/Region_AgeRating/{ID}")
+    @GetMapping("/Region_AgeRating/Get/{ID}")
     List<String[]> GetAllRegion_AgeRating(@PathVariable String ID){
         return Region_AgeRating_Database.GetAllRegion_AgeRatings(ID);
     }
-    @GetMapping("/Region/Add/{Region_Name}")
-    List<String[]> AddNewRegion(@PathVariable String Region_Name){
-        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Region_Name, null);
+    @GetMapping("/Region_AgeRating/Add/{Option_Name}/{Reference_Region_ID}")
+    List<String[]> AddNewRegion_Age(@PathVariable String Option_Name, @PathVariable String Reference_Region_ID){
+        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Option_Name, Reference_Region_ID);
         if(Added){
-            return Region_AgeRating_Database.GetAllRegion_AgeRatings(null);
-        }
-        return null;
-    }
-    @GetMapping("/Age/Add/{Region_ID}/{Age_Name}")
-    List<String[]> AddNewAgeRating(@PathVariable String Region_ID, @PathVariable String Age_Name){
-        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Age_Name, Region_ID);
-        if(Added){
-            return Region_AgeRating_Database.GetAllRegion_AgeRatings(Region_ID);
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(Reference_Region_ID);
         }
         return null;
     }
@@ -39,11 +31,11 @@ public class Region_AgeRatingController {
         }
         return null;
     }
-    @GetMapping("/Region_AgeRating/Edit/{Option_Name}/{ID}")
-    List<String[]> EditCategory(@PathVariable String Option_Name, @PathVariable String ID){
-        Boolean Edit =Region_AgeRating_Database.EditRegion_AgeRatings(Option_Name, ID);
+    @GetMapping("/Region_AgeRating/Edit/{Option_Name}/{Option_ID}/{Region_ID}")
+    List<String[]> EditCategory(@PathVariable String Option_Name, @PathVariable String Option_ID,@PathVariable String Region_ID){
+        Boolean Edit =Region_AgeRating_Database.EditRegion_AgeRatings(Option_Name, Option_ID);
         if(Edit){
-            return Region_AgeRating_Database.GetAllRegion_AgeRatings(ID);
+            return Region_AgeRating_Database.GetAllRegion_AgeRatings(Region_ID);
         }
         return null;
     }

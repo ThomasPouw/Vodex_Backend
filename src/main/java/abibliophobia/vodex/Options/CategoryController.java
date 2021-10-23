@@ -15,7 +15,7 @@ public class CategoryController {
     List<String[]> GetAllMainCategories(@PathVariable String ID){
         return Category_Database.GetAllCategories(ID);
     }
-    @GetMapping("/Main/Add/{Category_Name}")
+    @GetMapping("/Main/Add/{Category_Name}/null")
     List<String[]> AddNewMainCategory(@PathVariable String Category_Name){
         Boolean Added = Category_Database.AddNewCategory(Category_Name, null);
         if(Added){
@@ -23,27 +23,27 @@ public class CategoryController {
         }
         return null;
     }
-    @GetMapping("/Sub/Add/{Category_Name}/{Main_Category_ID}")
-    List<String[]> AddNewSubCategory(@PathVariable String Category_Name, @PathVariable String Main_Category_ID){
-        Boolean Added = Category_Database.AddNewCategory(Category_Name, Main_Category_ID);
+    @GetMapping("/Sub/Add/{New_Category_Name}/{Main_Category_ID}/")
+    List<String[]> AddNewSubCategory(@PathVariable String New_Category_Name, @PathVariable String Main_Category_ID){
+        Boolean Added = Category_Database.AddNewCategory(New_Category_Name, Main_Category_ID);
         if(Added){
             return Category_Database.GetAllCategories(Main_Category_ID);
         }
         return null;
     }
-    @GetMapping("{Type}/Delete/{Category_Name}/{Main_Category_ID}")
-    List<String[]> DeleteCategory(@PathVariable String Type, @PathVariable String Category_Name,@PathVariable String Main_Category_ID){
-        Boolean Deleted = Category_Database.DeleteCategory(Category_Name, Type);
+    @GetMapping("{Type}/Delete/{Category_ID}/{Main_Category_ID}")
+    List<String[]> DeleteCategory(@PathVariable String Type, @PathVariable String Category_ID,@PathVariable String Main_Category_ID){
+        Boolean Deleted = Category_Database.DeleteCategory(Category_ID, Type);
         if(Deleted){
             return Category_Database.GetAllCategories(Main_Category_ID);
         }
         return null;
     }
-    @GetMapping("/Edit/{Category_Name}/{ID}")
-    List<String[]> EditCategory(@PathVariable String Category_Name, @PathVariable String ID){
-        Boolean Edit = Category_Database.EditCategory(Category_Name, ID);
+    @GetMapping("/Edit/{Category_Name}/{Option_ID}/{Reference_Main_ID}")
+    List<String[]> EditCategory(@PathVariable String Category_Name, @PathVariable String Option_ID, @PathVariable String Reference_Main_ID){
+        Boolean Edit = Category_Database.EditCategory(Category_Name, Option_ID);
         if(Edit){
-            return Category_Database.GetAllCategories(ID);
+            return Category_Database.GetAllCategories(Reference_Main_ID);
         }
         return null;
     }

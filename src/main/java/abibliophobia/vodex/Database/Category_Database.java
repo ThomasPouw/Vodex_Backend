@@ -81,10 +81,10 @@ public class Category_Database {
             return false;
         }
     }
-    public static Boolean EditCategory(String Category_Name, String Main_Category_ID){
+    public static Boolean EditCategory(String Category_Name, String Category_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
         try {
-            Document query = new Document().append("_id", Main_Category_ID);
+            Document query = new Document().append("_id", Category_ID);
             Bson updates = Updates.combine(
                     Updates.set("Category_Name", Category_Name));
             UpdateOptions options = new UpdateOptions().upsert(true);
