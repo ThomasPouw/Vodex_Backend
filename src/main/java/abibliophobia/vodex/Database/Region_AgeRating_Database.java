@@ -23,8 +23,8 @@ public class Region_AgeRating_Database {
     public static List<String[]> GetAllRegion_AgeRatings(String Reference_Region_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
         List<String[]> list = new ArrayList<>();
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             BasicDBObject criteria = new BasicDBObject();
             if (Reference_Region_ID == null) {
@@ -49,12 +49,15 @@ public class Region_AgeRating_Database {
         catch(MongoException ME){
             System.out.println(ME.getMessage());
         }
+        finally{
+           mongoClient.close();
+        }
         return null;
     }
     public static Boolean AddNewRegion_AgeRatings(String Region_AgeRating_Name, String Reference_Region_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             InsertOneResult result;
             if(Reference_Region_ID == null)
@@ -62,23 +65,25 @@ public class Region_AgeRating_Database {
                 result = database.getCollection("Region_AgeRating").insertOne(new Document()
                         .append("_id", new ObjectId())
                         .append("Region_AgeRating_Name", Region_AgeRating_Name)
-                        .append("Type", "Main"));
+                        .append("Type", "Region"));
             }
             else{
-                result = database.getCollection("Category").insertOne(new Document()
+                result = database.getCollection("Region_AgeRating").insertOne(new Document()
                         .append("_id", new ObjectId())
                         .append("Category_Name", Region_AgeRating_Name)
-                        .append("Type", "Sub")
-                        .append("Reference_Region_ID", Reference_Region_ID));
+                        .append("Type", "AgeRating")
+                        .append("Region_AgeRating_Name", Reference_Region_ID));
             }
             System.out.println("Success! Inserted document id: " + result.getInsertedId());
-            mongoClient.close();
             return true;
         }
         catch(MongoException E){
             System.out.println("MongoException: "+ E.getMessage());
             System.out.println("Error code: "+ E.getCode());
             return false;
+        }
+        finally {
+            mongoClient.close();
         }
     }
     public static Boolean EditRegion_AgeRatings(String Region_AgeRating_Name, String Reference_Region_ID){

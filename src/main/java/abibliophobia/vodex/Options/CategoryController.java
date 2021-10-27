@@ -1,21 +1,19 @@
 package abibliophobia.vodex.Options;
 
 import abibliophobia.vodex.Database.Category_Database;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/Options/Category")
 public class CategoryController {
-    @GetMapping("/Get/{ID}")
-    List<String[]> GetAllMainCategories(@PathVariable String ID){
+    @GetMapping({"/Get/{ID}", "/Get/"})
+    List<String[]> GetAllCategories(@PathVariable(required = false) String ID){
         return Category_Database.GetAllCategories(ID);
     }
-    @GetMapping("/Main/Add/{Category_Name}/null")
+    @GetMapping("/Main/Add/{Category_Name}/")
     List<String[]> AddNewMainCategory(@PathVariable String Category_Name){
         Boolean Added = Category_Database.AddNewCategory(Category_Name, null);
         if(Added){

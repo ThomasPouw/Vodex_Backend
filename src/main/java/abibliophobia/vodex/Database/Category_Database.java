@@ -23,11 +23,11 @@ public class Category_Database {
     public static List<String[]> GetAllCategories(String Main_Category_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
         List<String[]> list = new ArrayList<>();
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             BasicDBObject criteria = new BasicDBObject();
-            if (Main_Category_ID == null) {
+            if (Main_Category_ID.equals("null")) {
                 criteria.append("Type", "Main");
             }
             else {
@@ -48,16 +48,20 @@ public class Category_Database {
         }
         catch(MongoException ME){
             System.out.println(ME.getMessage());
+
+        }
+        finally {
+            mongoClient.close();
         }
         return null;
     }
     public static Boolean AddNewCategory(String Category_Name, String Main_Category_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             InsertOneResult result;
-            if(Main_Category_ID == null)
+            if(Main_Category_ID == "null")
             {
                 result = database.getCollection("Category").insertOne(new Document()
                         .append("_id", new ObjectId())
@@ -72,7 +76,6 @@ public class Category_Database {
                         .append("Main_Category_ID", Main_Category_ID));
             }
             System.out.println("Success! Inserted document id: " + result.getInsertedId());
-            mongoClient.close();
             return true;
         }
         catch(MongoException E){
@@ -80,15 +83,18 @@ public class Category_Database {
             System.out.println("Error code: "+ E.getCode());
             return false;
         }
+        finally{
+            mongoClient.close();
+        }
     }
     public static Boolean EditCategory(String Category_Name, String Category_ID){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
             Document query = new Document().append("_id", Category_ID);
             Bson updates = Updates.combine(
                     Updates.set("Category_Name", Category_Name));
             UpdateOptions options = new UpdateOptions().upsert(true);
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             UpdateResult result = database.getCollection("Category").updateOne(query, updates, options);
             System.out.println(result.getModifiedCount());
@@ -102,12 +108,16 @@ public class Category_Database {
         catch(BSONException BE){
             System.out.println("BsonException: "+BE.getMessage());
         }
+        finally{
+            mongoClient.close();
+        }
         return false;
     }
     public static Boolean DeleteCategory(String Category_ID, String Type){
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        MongoClient mongoClient = MongoClients.create(uri);
         try {
-            MongoClient mongoClient = MongoClients.create(uri);
+
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             if(Type== "Main"){
                 DeleteResult result = database.getCollection("Category").deleteMany(new Document("Main_Category_ID", Category_ID));
@@ -124,6 +134,9 @@ public class Category_Database {
         }
         catch(BSONException BE){
             System.out.println("BsonException: "+BE.getMessage());
+        }
+        finally{
+            mongoClient.close();
         }
         return false;
     }

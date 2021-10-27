@@ -25,8 +25,8 @@ public class Register_Database extends DatabaseConfig
     public boolean Add_New_User(String UserName, String Password, String Email, String Birthday)
     {
         String uri = "mongodb+srv://ThomasPouw:rAuHT59tpmLwTp51@cluster0.johjz.mongodb.net/?retryWrites=true&w=majority";
+        MongoClient mongoClient = MongoClients.create(uri);
         try{
-            MongoClient mongoClient = MongoClients.create(uri);
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             InsertOneResult result = database.getCollection("Users").insertOne(new Document()
                     .append("_id", new ObjectId())
@@ -47,6 +47,9 @@ public class Register_Database extends DatabaseConfig
             System.out.println("MongoException: "+ E.getMessage());
             System.out.println("Error code: "+ E.getCause());
             return false;
+        }
+        finally{
+            mongoClient.close();
         }
         return true;
     }

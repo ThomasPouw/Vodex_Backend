@@ -19,6 +19,7 @@ public class Login_Database extends DatabaseConfig
             criteria.append("Email", Email);
             criteria.append("Password", Password);
             MongoCursor<Document> Mdoc = database.getCollection("Users").find(criteria).iterator();
+            mongoClient.close();
             while(Mdoc.hasNext()){
                 Document doc = Mdoc.next();
                 return new String[]{doc.get("_id").toString(), (String) doc.get("User_Name"), (String) doc.get("Role")};
@@ -28,6 +29,9 @@ public class Login_Database extends DatabaseConfig
         catch(MongoException Mongo){
             System.out.println("SQLException: "+ Mongo.getMessage());
             return null;
+        }
+        finally{
+            mongoClient.close();
         }
     }
 }
