@@ -48,9 +48,6 @@ public class Register_Database extends DatabaseConfig
             System.out.println("Error code: "+ E.getCause());
             return false;
         }
-        finally{
-            mongoClient.close();
-        }
         return true;
     }
 }

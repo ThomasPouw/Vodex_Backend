@@ -27,7 +27,7 @@ public class Category_Database {
         try {
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             BasicDBObject criteria = new BasicDBObject();
-            if (Main_Category_ID.equals("null")) {
+            if (Main_Category_ID == null) {
                 criteria.append("Type", "Main");
             }
             else {
@@ -61,7 +61,7 @@ public class Category_Database {
         try {
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             InsertOneResult result;
-            if(Main_Category_ID == "null")
+            if(Main_Category_ID == null)
             {
                 result = database.getCollection("Category").insertOne(new Document()
                         .append("_id", new ObjectId())
@@ -76,6 +76,7 @@ public class Category_Database {
                         .append("Main_Category_ID", Main_Category_ID));
             }
             System.out.println("Success! Inserted document id: " + result.getInsertedId());
+            mongoClient.close();
             return true;
         }
         catch(MongoException E){
