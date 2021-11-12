@@ -27,6 +27,7 @@ public class Category_Database {
         try {
             MongoDatabase database = mongoClient.getDatabase("Vodex");
             BasicDBObject criteria = new BasicDBObject();
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAH!:"+Main_Category_ID);
             if (Main_Category_ID == null) {
                 criteria.append("Type", "Main");
             }

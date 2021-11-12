@@ -21,9 +21,9 @@ public class CategoryController {
         }
         return null;
     }
-    @GetMapping("/Sub/Add/{New_Category_Name}/{Main_Category_ID}/")
-    List<String[]> AddNewSubCategory(@PathVariable String New_Category_Name, @PathVariable String Main_Category_ID){
-        Boolean Added = Category_Database.AddNewCategory(New_Category_Name, Main_Category_ID);
+    @GetMapping("/Sub/Add/{Category_Name}/{Main_Category_ID}/")
+    List<String[]> AddNewSubCategory(@PathVariable String Category_Name, @PathVariable String Main_Category_ID){
+        Boolean Added = Category_Database.AddNewCategory(Category_Name, Main_Category_ID);
         if(Added){
             return Category_Database.GetAllCategories(Main_Category_ID);
         }
