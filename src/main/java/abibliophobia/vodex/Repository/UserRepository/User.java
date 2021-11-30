@@ -17,14 +17,12 @@ public class User {
 
     public User() {}
 
-    public User(String UserName, String Password, String Email, Date Birthday, String Role, String Image) {
+    public User(String UserName, String Password, String Email, Date Birthday, String Role) {
         this.Username = UserName;
         this.Password = Password;
         this.Email = Email;
         this.Birthday = Birthday;
         this.Role = Role;
-        this.Image = Image;
-        Friends = new ArrayList<>();
     }
     public User(String ID, String UserName, String Image) {
         this.ID = ID;
@@ -32,46 +30,4 @@ public class User {
         this.Image = Image;
     }
 
-    public boolean SetFriend(User U)
-    {
-        try{
-            Friends.add(U);
-            return true;
-        }
-        catch(Exception E)
-        {
-            System.out.println(E.getCause());
-            System.out.println(E.getMessage());
-            return false;
-        }
-    }
-    public boolean DeleteFriend(User U)
-    {
-        try{
-            Boolean Is_In_List= false;
-            for (User F:Friends) {
-                if (F.ID.equals(U.ID)) {
-                    Is_In_List = true;
-                    break;
-                }
-            }
-            if(Is_In_List){
-                Friends.remove(U);
-            }
-            return true;
-        }
-        catch(Exception E)
-        {
-            System.out.println(E.getCause());
-            System.out.println(E.getMessage());
-            return false;
-        }
-    }
-
-    //@Override
-    //public String toString() {
-     //   return String.format(
-    //            "Customer[id=%s, firstName='%s', lastName='%s']",
-    //            id, firstName, lastName);
-   // }
 }

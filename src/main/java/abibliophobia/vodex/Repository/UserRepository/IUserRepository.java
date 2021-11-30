@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends ReactiveMongoRepository<User, String> {
-    //public User GetUserPageDataByID(String ID);
-    //List<ArrayList<String>> GetFriendList(String ID);
-    //Boolean Delete_Friend(String User_ID, String Friend_ID);
-    //Boolean Update_FriendList(String User_ID);
+public interface IUserRepository extends MongoRepository<User, String> {
+  //public User findUserByID(String ID);
+  //public User findUsersByUsernameLike(String Username);
+ // public User findUsersByUsernameAndPassword(String Username, String Password);
 }

@@ -1,33 +1,34 @@
 package abibliophobia.vodex.Options;
 
 import abibliophobia.vodex.Database.Category_Database;
+import abibliophobia.vodex.Repository.OptionRepository.Category.Category;
+import abibliophobia.vodex.Services.Options.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "api/v1/Options/Category")
+@RequestMapping(path = "api/v1/Options/Category/")
+@Controller
 public class CategoryController {
-    @GetMapping({"/Get/{ID}", "/Get/"})
-    List<String[]> GetAllCategories(@PathVariable(required = false) String ID){
-        return Category_Database.GetAllCategories(ID);
+    @Autowired
+    private CategoryService CService;
+    @GetMapping("Get/")
+    List<Category> GetAllCategories(){
+        List<Category> egg = CService.FindCategory();
+        System.out.println();
+        return egg;
     }
     @GetMapping("/Main/Add/{Category_Name}/")
-    List<String[]> AddNewMainCategory(@PathVariable String Category_Name){
-        Boolean Added = Category_Database.AddNewCategory(Category_Name, null);
-        if(Added){
-            return Category_Database.GetAllCategories(null);
-        }
-        return null;
+    void AddNewMainCategory(@PathVariable String Category_Name){
+        CService.SaveCategory(Category_Name, null);
     }
-    @GetMapping("/Sub/Add/{Category_Name}/{Main_Category_ID}/")
-    List<String[]> AddNewSubCategory(@PathVariable String Category_Name, @PathVariable String Main_Category_ID){
-        Boolean Added = Category_Database.AddNewCategory(Category_Name, Main_Category_ID);
-        if(Added){
-            return Category_Database.GetAllCategories(Main_Category_ID);
-        }
-        return null;
+    @GetMapping("/Sub/Add/{Category_Name}/{Main_Category_ID}")
+    void AddNewSubCategory(@PathVariable String Category_Name, @PathVariable String Main_Category_ID){
+        CService.SaveCategory(Category_Name, Main_Category_ID);
     }
     @GetMapping("{Type}/Delete/{Category_ID}/{Main_Category_ID}")
     List<String[]> DeleteCategory(@PathVariable String Type, @PathVariable String Category_ID,@PathVariable String Main_Category_ID){

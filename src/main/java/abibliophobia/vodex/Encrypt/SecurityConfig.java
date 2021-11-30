@@ -1,4 +1,4 @@
-package abibliophobia.vodex;
+package abibliophobia.vodex.Encrypt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -2,6 +2,9 @@ package abibliophobia.vodex.Options;
 
 import abibliophobia.vodex.Database.Category_Database;
 import abibliophobia.vodex.Database.Region_AgeRating_Database;
+import abibliophobia.vodex.Repository.OptionRepository.RegionAge.RegionAge;
+import abibliophobia.vodex.Services.Options.RegionAgeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,17 +13,16 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/Options")
 public class Region_AgeRatingController {
-    @GetMapping({"/Region_AgeRating/Get/{ID}", "/Region_AgeRating/Get/"})
-    List<String[]> GetAllRegion_AgeRating(@PathVariable(required = false) String ID){
-        return Region_AgeRating_Database.GetAllRegion_AgeRatings(ID);
+    @Autowired
+    public RegionAgeService RAService;
+    @GetMapping( "/Region_AgeRating/Get/")
+    List<RegionAge> GetAllRegion_AgeRating(){
+        return RAService.FindRegions();
     }
     @GetMapping("/Region/Add/{Option_Name}/")
-    List<String[]> AddNewRegionCategory(@PathVariable String Option_Name){
-        Boolean Added = Region_AgeRating_Database.AddNewRegion_AgeRatings(Option_Name, null);
-        if(Added){
-            return Region_AgeRating_Database.GetAllRegion_AgeRatings(null);
-        }
-        return null;
+    List<RegionAge> AddNewRegionCategory(@PathVariable String Option_Name){
+        RAService.SaveRegionAge(Option_Name, null);
+        return RAService.FindRegions();
     }
     @GetMapping("/AgeRating/Add/{Option_Name}/{Reference_Region_ID}/")
     List<String[]> AddNewAge(@PathVariable String Option_Name, @PathVariable String Reference_Region_ID){
